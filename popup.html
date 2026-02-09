@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuardianLens</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 280px;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: linear-gradient(145deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+      color: #ffffff;
+    }
+
+    .container {
+      padding: 24px 20px 20px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-container {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #ffffff 0%, #a8dadc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #00ff88;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.inactive {
+      background: #ff4444;
+      animation: none;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.6;
+        transform: scale(0.9);
+      }
+    }
+
+    .status-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #00ff88;
+      letter-spacing: 0.5px;
+    }
+
+    .status-text.inactive {
+      color: #ff4444;
+    }
+
+    /* Toggle Card */
+    .toggle-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-info h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .toggle-info p {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .toggle {
+      position: relative;
+      width: 52px;
+      height: 28px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+      border-radius: 28px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      transition: 0.3s;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle input:checked+.toggle-slider {
+      background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+    }
+
+    .toggle input:checked+.toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Report Button */
+    .report-btn {
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25);
+      letter-spacing: 0.3px;
+    }
+
+    .report-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+    }
+
+    .report-btn:active {
+      transform: translateY(0);
+    }
+
+    .report-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .report-btn .icon {
+      font-size: 16px;
+    }
+
+    /* Status Message */
+    .status-msg {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 12px;
+      min-height: 18px;
+      font-weight: 500;
+    }
+
+    .status-msg.loading {
+      color: #00d4ff;
+    }
+
+    .status-msg.success {
+      color: #00ff88;
+    }
+
+    .status-msg.error {
+      color: #ff6b6b;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-text {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-container">🛡️</div>
+      <div class="title">GuardianLens</div>
+      <div class="subtitle">AI Content Protection</div>
+    </div>
+
+    <!-- Status Badge -->
+    <div style="text-align: center;">
+      <div class="status-badge" id="statusBadge">
+        <div class="status-dot" id="statusDot"></div>
+        <span class="status-text" id="statusText">Protected</span>
+      </div>
+    </div>
+
+    <!-- Toggle Card -->
+    <div class="toggle-card">
+      <div class="toggle-info">
+        <h3>Content Filter</h3>
+        <p>Real-time protection</p>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="enableToggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Report Button -->
+    <button class="report-btn" id="downloadBtn">
+      <span class="icon">📊</span>
+      <span>Download Weekly Report</span>
+    </button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-text">Protecting students from harmful content</div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
